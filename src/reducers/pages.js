@@ -32,7 +32,7 @@ export default (state = initialState, action) => {
             const { pageId, id } = action.payload
             const page = state.pages.find(page => page.id === pageId)
             let block = page.blocks.find(block => block.id === id)
-            Object.assign(block, action.payload)
+            if (block) Object.assign(block, action.payload)
 
             return { ...state }
         case "BLOCK_ADD":

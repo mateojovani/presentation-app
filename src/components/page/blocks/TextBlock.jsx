@@ -54,6 +54,7 @@ export default class TextBlock extends Component {
                     height={height}
                     left={left}
                     top={top}
+                    onUpdate={this.props.onUpdate}
                 >
                     { this.renderCKEditor() }
                 </DraggableBlock>
@@ -66,8 +67,9 @@ export default class TextBlock extends Component {
                     height={height}
                     left={left}
                     top={top}
+                    onUpdate={this.props.onUpdate}
                 >
-                    <div dangerouslySetInnerHTML={{ __html: content }}></div>
+                    <div style={{"fontSize":"0.5rem"}} dangerouslySetInnerHTML={{ __html: content }}></div>
                 </Block>
             )
 

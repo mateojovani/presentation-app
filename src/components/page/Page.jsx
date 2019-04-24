@@ -12,6 +12,9 @@ export class Page extends Component {
         this.state = {
             mode: this.props.mode
         }
+
+        this.updateBlock = this.updateBlock.bind(this)
+        this.toggleMode = this.toggleMode.bind(this)
     }
 
     updateBlock(props) {
@@ -48,7 +51,7 @@ export class Page extends Component {
                     left={left}
                     top={top}
                     key={key}
-                    onUpdate={this.updateBlock.bind(this)}
+                    onUpdate={this.updateBlock}
                 >
                 </TextBlock>
             )
@@ -72,7 +75,7 @@ export class Page extends Component {
                 </div>
                 <div>
                     {connectDropTarget?
-                        <button className="button" onClick={this.toggleMode.bind(this)}>Toggle Mode</button>:
+                        <button className="button" onClick={this.toggleMode}>Toggle Mode</button>:
                         null
                     }
                 </div>
@@ -104,7 +107,7 @@ let DropTargetPage = DropTarget(
             const delta = monitor.getDifferenceFromInitialOffset()
             const left = Math.round(item.left + delta.x)
             const top = Math.round(item.top + delta.y)
-            component.updateBlock({ id: item.id, left, top, width: item.width, height: item.height })
+            component.updateBlock({ id: item.id, left, top })
         },
     },
     connect => ({
