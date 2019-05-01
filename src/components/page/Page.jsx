@@ -13,6 +13,7 @@ export class Page extends Component {
             mode: this.props.mode
         }
 
+        this.page = null
         this.updateBlock = this.updateBlock.bind(this)
         this.setActiveBlock = this.setActiveBlock.bind(this)
         this.toggleMode = this.toggleMode.bind(this)
@@ -20,7 +21,16 @@ export class Page extends Component {
     }
 
     updateBlock(props) {
-        this.props.updateBlock({ pageId: this.props.id, ...props })
+        this.props.updateBlock({ pageId: this.props.id, ...this.getRelativeSize(props) })
+    }
+
+    getRelativeSize(props) {
+        if (props.width && props.width.indexOf("px") > -1)
+            props.width = (parseFloat(props.width.split("px")[0]) / this.page.offsetWidth * 100) + "%"
+        if (props.height && props.height.indexOf("px") > -1)
+            props.height = (parseFloat(props.height.split("px")[0]) / this.page.offsetHeight * 100) + "%"
+
+        return props
     }
 
     setActiveBlock(props) {
@@ -72,9 +82,10 @@ export class Page extends Component {
         const { connectDropTarget, width, height, blocks } = this.props
 
         const content = (
-            <div id={this.id}>
+            <div id={connectDropTarget? "drop-page-" + this.props.id: "slide-" + this.props.id}>
                 <div
-                    className="box"
+                    className={connectDropTarget ? "drop-page-box box": "slide-box box"}
+                    ref={page => this.page = page}
                     style={{
                         position: "relative",
                         width: width || "100%",
@@ -106,6 +117,14 @@ Page.propTypes = {
     height: PropTypes.string
 }
 
+const getRelativeDelta = ({id}, delta) => {
+    const page = document.getElementById("drop-page-" + id)
+    delta.x = delta.x / page.offsetWidth * 100
+    delta.y = delta.y / page.offsetHeight * 100
+
+    return delta
+}
+
 let DropTargetPage = DropTarget(
     'block',
     {
@@ -114,9 +133,9 @@ let DropTargetPage = DropTarget(
                 return
             }
             const item = monitor.getItem()
-            const delta = monitor.getDifferenceFromInitialOffset()
-            const left = Math.round(item.left + delta.x)
-            const top = Math.round(item.top + delta.y)
+            const delta = getRelativeDelta(props, monitor.getDifferenceFromInitialOffset())
+            const left = parseFloat(item.left.split("%")[0]) + delta.x + "%"
+            const top = parseFloat(item.top.split("%")[0]) + delta.y + "%"
 
             component.updateBlock({ id: item.id, left, top })
             component.setActiveBlock({ id: item.id })

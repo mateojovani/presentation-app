@@ -62,7 +62,7 @@ export default class TextBlock extends Component {
             focused
         },
             () => this.renderCKEditor(),
-            () => <div style={{ "fontSize": "0.5rem" }} dangerouslySetInnerHTML={{ __html: content }}></div>
+            () => <div dangerouslySetInnerHTML={{ __html: content }}></div>
         )
 
     }
