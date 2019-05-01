@@ -9,6 +9,7 @@ import {
     addPage,
     deletePage,
     updateBlock,
+    setActiveBlock,
     addBlock
 } from '../../actions/pages'
 
@@ -25,6 +26,7 @@ class Main extends Component {
     render() {
         let pages = this.props.pagesReducer.pages? this.props.pagesReducer.pages: []
         let currentPage = this.props.pagesReducer.currentPage ? this.props.pagesReducer.currentPage : { blocks: [] }
+        let currentBlock = this.props.pagesReducer.currentBlock || null
 
         return (
             <div className="columns">
@@ -42,7 +44,9 @@ class Main extends Component {
                         id={currentPage.id}
                         mode="edit"
                         blocks={currentPage.blocks}
+                        currentBlock={currentBlock}
                         updateBlock={this.props.updateBlock.bind(this)}
+                        setActiveBlock={this.props.setActiveBlock.bind(this)}
                     />
                 </div>
                 <div className="column">
@@ -59,6 +63,7 @@ class Main extends Component {
 const mapDispatchToProps = dispatch => ({
     getPages: () => dispatch(getPages()),
     updateBlock: (params) => dispatch(updateBlock(params)),
+    setActiveBlock: (params) => dispatch(setActiveBlock(params)),
     setCurrentPage: (page) => dispatch(setCurrentPage(page)),
     addPage: () => dispatch(addPage()),
     deletePage: (pageIds) => dispatch(deletePage(pageIds)),

@@ -11,7 +11,7 @@ export default class Sidebar extends Component {
                     <div key={block}>
                         <button
                             className="button"
-                            onClick={() => addBlock({pageId: currentPage.id, block: Blocks[block].name})}
+                            onClick={() => addBlock({pageId: currentPage.id, block: block})}
                         >
                             {Blocks[block].label}
                         </button>

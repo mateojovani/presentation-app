@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
-import CKEditor from '@ckeditor/ckeditor5-react';
+import CKEditor from '@ckeditor/ckeditor5-react'
 import CkeditorConfig from './CkeditorConfig'
-import DraggableBlock, { Block } from './Block'
+import { renderBlock } from './Block'
 
 export default class TextBlock extends Component {
     constructor(props) {
@@ -36,42 +36,34 @@ export default class TextBlock extends Component {
 
     render() {
         const {
+            id,
             mode,
             content,
             draggable,
             width,
             height,
             left,
-            top
+            top,
+            onUpdate,
+            onFocus,
+            focused
         } = this.props
 
-        return mode === "edit" ?
-            (
-                <DraggableBlock
-                    id={this.props.id}
-                    draggable={draggable}
-                    width={width}
-                    height={height}
-                    left={left}
-                    top={top}
-                    onUpdate={this.props.onUpdate}
-                >
-                    { this.renderCKEditor() }
-                </DraggableBlock>
-            ) :
-            (
-                <Block
-                    id={this.props.id}
-                    draggable={draggable}
-                    width={width}
-                    height={height}
-                    left={left}
-                    top={top}
-                    onUpdate={this.props.onUpdate}
-                >
-                    <div style={{"fontSize":"0.5rem"}} dangerouslySetInnerHTML={{ __html: content }}></div>
-                </Block>
-            )
+
+        return renderBlock(mode, {
+            id,
+            draggable,
+            width,
+            height,
+            left,
+            top,
+            onUpdate,
+            onFocus,
+            focused
+        },
+            () => this.renderCKEditor(),
+            () => <div style={{ "fontSize": "0.5rem" }} dangerouslySetInnerHTML={{ __html: content }}></div>
+        )
 
     }
 }

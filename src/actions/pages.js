@@ -7,7 +7,7 @@ const pages = [
         blocks: [
             {
                 id: uuid(),
-                type: "TextBox",
+                type: "TextBlock",
                 top: 20,
                 left: 80,
                 width: "40%",
@@ -16,21 +16,22 @@ const pages = [
             },
             {
                 id: uuid(),
-                type: "TextBox",
+                type: "TextBlock",
                 top: 100,
                 left: 80,
                 width: "40%",
                 height: "15%",
                 content: ""
             },
-            // {
-            //     id: uuid(),
-            //     type: "Image",
-            //     top: 180,
-            //     left: 80,
-            //     width: "40%",
-            //     height: "40%"
-            // }
+            {
+                id: uuid(),
+                type: "ImageBlock",
+                top: 180,
+                left: 80,
+                width: "40%",
+                height: "40%",
+                src: "https://via.placeholder.com/150"
+            }
         ]
     },
     {
@@ -38,7 +39,7 @@ const pages = [
         blocks: [
             {
                 id: uuid(),
-                type: "TextBox",
+                type: "TextBlock",
                 top: 20,
                 left: 80,
                 width: "40%",
@@ -56,15 +57,41 @@ const pageTemplate = (id = uuid()) => {
     }
 }
 
-const blockTemplate = (id = uuid()) => {
-    return {
-        id: id,
-        type: "TextBox",
-        top: 100,
-        left: 80,
-        width: "40%",
-        height: "15%",
-        content: ""
+const blockTemplate = (id = uuid(), name) => {
+    switch (name) {
+        case "TextBlock": {
+            return {
+                id: id,
+                type: name,
+                top: 100,
+                left: 80,
+                width: "40%",
+                height: "15%",
+                content: ""
+            }
+        }
+        case "ImageBlock": {
+            return {
+                id: id,
+                type: name,
+                top: 100,
+                left: 80,
+                width: "30%",
+                height: "30%",
+                src: "https://via.placeholder.com/150"
+            }
+        }
+        default: {
+            return {
+                id: id,
+                type: name,
+                top: 100,
+                left: 80,
+                width: "40%",
+                height: "15%",
+                content: ""
+            }
+        }
     }
 }
 
@@ -103,9 +130,16 @@ export const updateBlock = (params) => dispatch => {
     })
 }
 
+export const setActiveBlock = (params) => dispatch => {
+    return dispatch({
+        type: 'BLOCK_ACTIVE',
+        payload: params
+    })
+}
+
 export const addBlock = ({pageId, block}) => dispatch => {
     return dispatch({
         type: 'BLOCK_ADD',
-        payload: {pageId, block: blockTemplate()}
+        payload: {pageId, block: blockTemplate(uuid(), block)}
     })
 }

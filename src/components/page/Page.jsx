@@ -4,7 +4,7 @@ import { DropTarget } from 'react-dnd'
 import update from 'immutability-helper'
 import { DragDropContext } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
-import TextBlock from './blocks/TextBlock'
+import Components from '../palette/Components'
 
 export class Page extends Component {
     constructor() {
@@ -14,11 +14,25 @@ export class Page extends Component {
         }
 
         this.updateBlock = this.updateBlock.bind(this)
+        this.setActiveBlock = this.setActiveBlock.bind(this)
         this.toggleMode = this.toggleMode.bind(this)
+        this.isActive = this.isActive.bind(this)
     }
 
     updateBlock(props) {
         this.props.updateBlock({ pageId: this.props.id, ...props })
+    }
+
+    setActiveBlock(props) {
+        this.props.setActiveBlock({pageId: this.props.id, ...props})
+    }
+
+    isActive({id}) {
+        if (this.props.currentBlock) {
+            return this.props.currentBlock.id === id
+        }
+
+        return false
     }
 
     toggleMode() {
@@ -39,21 +53,17 @@ export class Page extends Component {
 
     renderBlocks(blocks) {
         return blocks.map((block, key) => {
-            const { content, left, top, width, height, id } = block
+            const Block = Components[block.type].constructor
 
             return (
-                <TextBlock
-                    id={id}
-                    content={content}
-                    mode={this.state.mode}
-                    width={width}
-                    height={height}
-                    left={left}
-                    top={top}
+                <Block
                     key={key}
+                    mode={this.state.mode}
                     onUpdate={this.updateBlock}
-                >
-                </TextBlock>
+                    onFocus={this.setActiveBlock}
+                    focused={this.isActive(block)}
+                    {...block}
+                />
             )
         })
     }
@@ -107,7 +117,9 @@ let DropTargetPage = DropTarget(
             const delta = monitor.getDifferenceFromInitialOffset()
             const left = Math.round(item.left + delta.x)
             const top = Math.round(item.top + delta.y)
+
             component.updateBlock({ id: item.id, left, top })
+            component.setActiveBlock({ id: item.id })
         },
     },
     connect => ({

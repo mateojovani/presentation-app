@@ -17,6 +17,11 @@ export class Block extends React.Component {
         })
     }
 
+    setActive(draggable) {
+        if (draggable)
+            this.props.onFocus({id: this.props.id})
+    }
+
     componentDidMount() {
         const {connectDragSource} = this.props
 
@@ -42,6 +47,7 @@ export class Block extends React.Component {
             connectDragSource,
             isDragging,
             children,
+            focused,
             width,
             height
         } = this.props
@@ -54,9 +60,10 @@ export class Block extends React.Component {
             <div
                 id={id}
                 ref={ box => this.box = box }
+                onClick={() => this.setActive(draggable)}
                 style={{
                     position: "absolute",
-                    border: draggable ? "1px dashed gray" : "none",
+                    border: draggable ? focused ? "3px dashed blue" : "1px dashed gray" : "none",
                     backgroundColor: "white",
                     padding: "0.1rem 0.1rem",
                     cursor: "move",
@@ -86,6 +93,7 @@ const DraggableBlock = DragSource(
     'block',
     {
         beginDrag(props) {
+
             const { id, left, top } = props
             return { id, left, top }
         },
@@ -100,6 +108,20 @@ Block.propTypes = {
     id: PropTypes.string,
     width: PropTypes.string,
     height: PropTypes.string
+}
+
+export const renderBlock = (mode, props, renderEdit, renderPreview) => {
+    return mode === "edit" ?
+        (
+            <DraggableBlock {...props}>
+                {renderEdit()}
+            </DraggableBlock>
+        ) :
+        (
+            <Block {...props}>
+                {renderPreview()}
+            </Block>
+        )
 }
 
 export default DraggableBlock

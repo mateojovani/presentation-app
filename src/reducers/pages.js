@@ -1,6 +1,7 @@
 const initialState = {
     pages: null,
-    currentPage: null
+    currentPage: null,
+    currentBlock: null
 }
 
 export default (state = initialState, action) => {
@@ -28,18 +29,28 @@ export default (state = initialState, action) => {
             }
 
             return { ...state }
-        case "BLOCK_UPDATE":
+        case "BLOCK_UPDATE": {
             const { pageId, id } = action.payload
             const page = state.pages.find(page => page.id === pageId)
             let block = page.blocks.find(block => block.id === id)
             if (block) Object.assign(block, action.payload)
 
             return { ...state }
-        case "BLOCK_ADD":
-            let p = state.pages.find(page => page.id === action.payload.pageId)
-            p.blocks.push(action.payload.block)
+        }
+        case "BLOCK_ACTIVE": {
+            const { pageId, id } = action.payload
+            let page = state.pages.find(page => page.id === pageId)
+            let block = page.blocks.find(block => block.id === id)
 
-            return { ...state }
+            return { ...state, currentBlock: block || null}
+        }
+        case "BLOCK_ADD": {
+            const { pageId, block } = action.payload
+            let page = state.pages.find(page => page.id === pageId)
+            page.blocks.push(block)
+
+            return { ...state, currentBlock: block }
+        }
         default:
             return { ...state }
     }
