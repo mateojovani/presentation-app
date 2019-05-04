@@ -6,6 +6,28 @@ import { DragDropContext } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
 import Components from '../palette/Components'
 
+const PreviewBtn = ({ toggleMode }) => {
+    return (
+        <button className="button" onClick={toggleMode}>
+            <span className="icon">
+                <i className="fas fa-eye"></i>
+            </span>
+            <span>Preview</span>
+        </button>
+    )
+}
+
+const DesignBtn = ({ toggleMode }) => {
+    return (
+        <button className="button" onClick={toggleMode}>
+            <span className="icon">
+                <i className="fas fa-pencil-ruler"></i>
+            </span>
+            <span>Design</span>
+        </button>
+    )
+}
+
 export class Page extends Component {
     constructor() {
         super(...arguments)
@@ -34,10 +56,10 @@ export class Page extends Component {
     }
 
     setActiveBlock(props) {
-        this.props.setActiveBlock({pageId: this.props.id, ...props})
+        this.props.setActiveBlock({ pageId: this.props.id, ...props })
     }
 
-    isActive({id}) {
+    isActive({ id }) {
         if (this.props.currentBlock) {
             return this.props.currentBlock.id === id
         }
@@ -82,9 +104,9 @@ export class Page extends Component {
         const { connectDropTarget, width, height, blocks } = this.props
 
         const content = (
-            <div id={connectDropTarget? "drop-page-" + this.props.id: "slide-" + this.props.id}>
+            <div id={connectDropTarget ? "drop-page-" + this.props.id : "slide-" + this.props.id}>
                 <div
-                    className={connectDropTarget ? "drop-page-box box": "slide-box box"}
+                    className={connectDropTarget ? "drop-page-box box" : "slide-box box"}
                     ref={page => this.page = page}
                     style={{
                         position: "relative",
@@ -95,8 +117,11 @@ export class Page extends Component {
                     {this.renderBlocks(blocks)}
                 </div>
                 <div>
-                    {connectDropTarget?
-                        <button className="button" onClick={this.toggleMode}>Toggle Mode</button>:
+                    {connectDropTarget ?
+                        this.state.mode === "preview" ?
+                            <DesignBtn toggleMode={this.toggleMode} /> :
+                            <PreviewBtn toggleMode={this.toggleMode} />
+                        :
                         null
                     }
                 </div>
@@ -117,7 +142,7 @@ Page.propTypes = {
     height: PropTypes.string
 }
 
-const getRelativeDelta = ({id}, delta) => {
+const getRelativeDelta = ({ id }, delta) => {
     const page = document.getElementById("drop-page-" + id)
     delta.x = delta.x / page.offsetWidth * 100
     delta.y = delta.y / page.offsetHeight * 100

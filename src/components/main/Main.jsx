@@ -30,7 +30,7 @@ class Main extends Component {
 
         return (
             <div className="columns">
-                <div className="column">
+                <div className="column is-2">
                     <Slides
                         pages={pages}
                         currentPage={currentPage}
@@ -49,12 +49,12 @@ class Main extends Component {
                         setActiveBlock={this.props.setActiveBlock.bind(this)}
                     />
                 </div>
-                <div className="column">
+                {/* <div className="column">
                     <Sidebar
                         currentPage={currentPage}
                         addBlock={this.props.addBlock.bind(this)}
                     />
-                </div>
+                </div> */}
             </div>
         )
     }
