@@ -26,8 +26,8 @@ const ImageBlock = ({
         onFocus,
         focused
     },
-        () => <img src={src} alt="" style={{width: "100%", height: "96%"}}/>,
-        () => <img src={src} alt="" style={{width: "100%", height: "96%"}}/>
+    () => <img src={src} alt="" style={{ width: '100%', height: '96%' }} />,
+    () => <img src={src} alt="" style={{ width: '100%', height: '96%' }} />
     )
 
 }

@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import Slides from '../slides-panel/Slides'
 import DropTargetPage from '../page/Page'
-import Sidebar from '../palette/Sidebar'
 import { connect } from 'react-redux'
 import {
     getPages,

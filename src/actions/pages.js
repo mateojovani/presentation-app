@@ -7,21 +7,21 @@ const pages = [
         blocks: [
             {
                 id: uuid(),
-                type: "TextBlock",
-                top: "10%",
-                left: "10%",
-                width: "40%",
-                height: "15%",
-                content: ""
+                type: 'TextBlock',
+                top: '10%',
+                left: '10%',
+                width: '40%',
+                height: '15%',
+                content: ''
             },
             {
                 id: uuid(),
-                type: "ImageBlock",
-                top: "30%",
-                left: "10%",
-                width: "40%",
-                height: "40%",
-                src: "https://via.placeholder.com/150"
+                type: 'ImageBlock',
+                top: '30%',
+                left: '10%',
+                width: '40%',
+                height: '40%',
+                src: 'https://via.placeholder.com/150'
             }
         ]
     },
@@ -30,12 +30,12 @@ const pages = [
         blocks: [
             {
                 id: uuid(),
-                type: "TextBlock",
-                top: "10%",
-                left: "10%",
-                width: "40%",
-                height: "15%",
-                content: "Hi"
+                type: 'TextBlock',
+                top: '10%',
+                left: '10%',
+                width: '40%',
+                height: '15%',
+                content: 'Hi'
             }
         ]
     }
@@ -50,39 +50,39 @@ const pageTemplate = (id = uuid()) => {
 
 const blockTemplate = (id = uuid(), name) => {
     switch (name) {
-        case "TextBlock": {
-            return {
-                id: id,
-                type: name,
-                top: "10%",
-                left: "10%",
-                width: "40%",
-                height: "15%",
-                content: ""
-            }
+    case 'TextBlock': {
+        return {
+            id: id,
+            type: name,
+            top: '10%',
+            left: '10%',
+            width: '40%',
+            height: '15%',
+            content: ''
         }
-        case "ImageBlock": {
-            return {
-                id: id,
-                type: name,
-                top: "10%",
-                left: "10%",
-                width: "30%",
-                height: "30%",
-                src: "https://via.placeholder.com/150"
-            }
+    }
+    case 'ImageBlock': {
+        return {
+            id: id,
+            type: name,
+            top: '10%',
+            left: '10%',
+            width: '30%',
+            height: '30%',
+            src: 'https://via.placeholder.com/150'
         }
-        default: {
-            return {
-                id: id,
-                type: name,
-                top: 100,
-                left: 80,
-                width: "40%",
-                height: "15%",
-                content: ""
-            }
+    }
+    default: {
+        return {
+            id: id,
+            type: name,
+            top: 100,
+            left: 80,
+            width: '40%',
+            height: '15%',
+            content: ''
         }
+    }
     }
 }
 

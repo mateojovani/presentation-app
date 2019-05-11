@@ -24,12 +24,12 @@ export default class TextBlock extends Component {
                 onChange={(event, editor) => {
                     this.props.onUpdate({ id: this.props.id, content: editor.getData() })
                 }}
-                onBlur={editor => {
-                    console.log('Blur.', editor)
-                }}
-                onFocus={editor => {
-                    console.log('Focus.', editor)
-                }}
+                // onBlur={editor => {
+                //     console.log('Blur.', editor)
+                // }}
+                // onFocus={editor => {
+                //     console.log('Focus.', editor)
+                // }}
             />
         )
     }
@@ -61,8 +61,8 @@ export default class TextBlock extends Component {
             onFocus,
             focused
         },
-            () => this.renderCKEditor(),
-            () => <div dangerouslySetInnerHTML={{ __html: content }}></div>
+        () => this.renderCKEditor(),
+        () => <div dangerouslySetInnerHTML={{ __html: content }}></div>
         )
 
     }

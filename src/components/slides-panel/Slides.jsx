@@ -7,7 +7,7 @@ export default class Slides extends Component {
         return pages.map((page, key) => (
             <div
                 key={key}
-                style={currentPage.id === page.id? {"borderLeft": "solid hsl(204, 86%, 53%) 5px"}: {}}
+                style={currentPage.id === page.id? {'borderLeft': 'solid hsl(204, 86%, 53%) 5px'}: {}}
                 onClick={() => setCurrentPage(page)}
             >
                 <Page

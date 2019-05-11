@@ -62,16 +62,16 @@ export class Block extends React.Component {
                 ref={ box => this.box = box }
                 onClick={() => this.setActive(draggable)}
                 style={{
-                    position: "absolute",
-                    border: draggable ? focused ? "3px dashed blue" : "1px dashed gray" : "none",
-                    backgroundColor: "white",
-                    padding: "0.1rem 0.1rem",
-                    cursor: "move",
-                    resize: draggable ? "both" : "none",
-                    overflow: "auto",
+                    position: 'absolute',
+                    border: draggable ? focused ? '3px dashed blue' : '1px dashed gray' : 'none',
+                    backgroundColor: 'white',
+                    padding: '0.1rem 0.1rem',
+                    cursor: 'move',
+                    resize: draggable ? 'both' : 'none',
+                    overflow: 'auto',
                     // "max-width": width,
-                    width: width || "100%",
-                    height: height || "100%",
+                    width: width || '100%',
+                    height: height || '100%',
                     left: left,
                     top: top
                 }}
@@ -111,7 +111,7 @@ Block.propTypes = {
 }
 
 export const renderBlock = (mode, props, renderEdit, renderPreview) => {
-    return mode === "edit" ?
+    return mode === 'edit' ?
         (
             <DraggableBlock {...props}>
                 {renderEdit()}
