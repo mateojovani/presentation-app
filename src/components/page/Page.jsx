@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { DropTarget } from 'react-dnd'
 import update from 'immutability-helper'
+import { DropTarget } from 'react-dnd'
 import { DragDropContext } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
 import Components from '../palette/Components'
@@ -111,7 +110,7 @@ export class Page extends Component {
                     style={{
                         position: 'relative',
                         width: width || '100%',
-                        height: height || '700px'
+                        height: height || '80vh'
                     }}
                 >
                     {this.renderBlocks(blocks)}
@@ -134,12 +133,6 @@ export class Page extends Component {
 
         return content
     }
-}
-
-Page.propTypes = {
-    id: PropTypes.string,
-    width: PropTypes.string,
-    height: PropTypes.string
 }
 
 const getRelativeDelta = ({ id }, delta) => {

@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import CKEditor from '@ckeditor/ckeditor5-react'
 import CkeditorConfig from './CkeditorConfig'
@@ -66,9 +65,4 @@ export default class TextBlock extends Component {
         )
 
     }
-}
-TextBlock.propTypes = {
-    id: PropTypes.string,
-    width: PropTypes.string,
-    height: PropTypes.string
 }

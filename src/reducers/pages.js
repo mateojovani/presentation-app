@@ -33,8 +33,10 @@ export default (state = initialState, action) => {
     case 'BLOCK_UPDATE': {
         const { pageId, id } = action.payload
         const page = state.pages.find(page => page.id === pageId)
-        let block = page.blocks.find(block => block.id === id)
-        if (block) Object.assign(block, action.payload)
+        if (page) {
+            let block = page.blocks.find(block => block.id === id)
+            if (block) Object.assign(block, action.payload)
+        }
 
         return { ...state }
     }
