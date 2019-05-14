@@ -9,6 +9,7 @@
     "@material-ui/icons": "^4.0.0-beta.0",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.12.1",
+    "eslint-plugin-import": "^2.17.2",
     "immutability-helper": "^3.0.0",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
@@ -37,12 +38,5 @@
     "not ie <= 11",
     "not op_mini all"
   ],
-  "devDependencies": {
-    "eslint-plugin-import": "^2.17.2",
-    "eslint-plugin-jsx-a11y": "^6.2.1",
-    "eslint-plugin-node": "^9.0.1",
-    "eslint-plugin-promise": "^4.1.1",
-    "eslint-plugin-react": "^7.13.0",
-    "eslint-plugin-standard": "^4.0.0"
-  }
+  "devDependencies": {}
 }
