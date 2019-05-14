@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import CKEditor from '@ckeditor/ckeditor5-react'
 import CkeditorConfig from './CkeditorConfig'
@@ -24,12 +23,12 @@ export default class TextBlock extends Component {
                 onChange={(event, editor) => {
                     this.props.onUpdate({ id: this.props.id, content: editor.getData() })
                 }}
-                onBlur={editor => {
-                    console.log('Blur.', editor)
-                }}
-                onFocus={editor => {
-                    console.log('Focus.', editor)
-                }}
+                // onBlur={editor => {
+                //     console.log('Blur.', editor)
+                // }}
+                // onFocus={editor => {
+                //     console.log('Focus.', editor)
+                // }}
             />
         )
     }
@@ -61,14 +60,9 @@ export default class TextBlock extends Component {
             onFocus,
             focused
         },
-            () => this.renderCKEditor(),
-            () => <div dangerouslySetInnerHTML={{ __html: content }}></div>
+        () => this.renderCKEditor(),
+        () => <div dangerouslySetInnerHTML={{ __html: content }}></div>
         )
 
     }
-}
-TextBlock.propTypes = {
-    id: PropTypes.string,
-    width: PropTypes.string,
-    height: PropTypes.string
 }
