@@ -43,6 +43,7 @@ const useStyles = makeStyles(() => ({
         height: '80vh'
     },
     slides: {
+        height: '80vh',
         overflowY: 'scroll'
     },
     paper: {

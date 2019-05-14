@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { DragSource } from 'react-dnd'
+import ResizeObserver from 'resize-observer-polyfill'
+
 export class Block extends React.Component {
     constructor(props) {
         super(props)
