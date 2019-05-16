@@ -1,68 +1,54 @@
-import React, { Component } from 'react'
+import React from 'react'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import CKEditor from '@ckeditor/ckeditor5-react'
 import CkeditorConfig from './CkeditorConfig'
 import { renderBlock } from './Block'
 
-export default class TextBlock extends Component {
-    constructor(props) {
-        super(props)
-        this.editor = null
-    }
+const TextBlock = ({
+    id,
+    onUpdate,
+    mode,
+    content,
+    draggable,
+    width,
+    height,
+    left,
+    top,
+    onFocus,
+    focused
+}) => {
+    let editor = null
 
-    renderCKEditor() {
+    const renderCKEditor = () => {
         return (
             <CKEditor
                 editor={ClassicEditor}
                 config={CkeditorConfig}
-                data={this.props.content}
-                onInit={editor => {
-                    if (!this.editor)
-                        this.editor = editor
+                data={content}
+                onInit={_editor => {
+                    if (!editor) editor = _editor
                 }}
                 onChange={(event, editor) => {
-                    this.props.onUpdate({ id: this.props.id, content: editor.getData() })
+                    onUpdate({ id, content: editor.getData() })
                 }}
-                // onBlur={editor => {
-                //     console.log('Blur.', editor)
-                // }}
-                // onFocus={editor => {
-                //     console.log('Focus.', editor)
-                // }}
             />
         )
     }
 
-    render() {
-        const {
-            id,
-            mode,
-            content,
-            draggable,
-            width,
-            height,
-            left,
-            top,
-            onUpdate,
-            onFocus,
-            focused
-        } = this.props
-
-
-        return renderBlock(mode, {
-            id,
-            draggable,
-            width,
-            height,
-            left,
-            top,
-            onUpdate,
-            onFocus,
-            focused
-        },
-        () => this.renderCKEditor(),
-        () => <div dangerouslySetInnerHTML={{ __html: content }}></div>
-        )
-
-    }
+    return renderBlock(mode, {
+        id,
+        draggable,
+        width,
+        height,
+        left,
+        top,
+        onUpdate,
+        onFocus,
+        focused
+    },
+    () => renderCKEditor(),
+    () => <div dangerouslySetInnerHTML={{ __html: content }}></div>
+    )
 }
+
+export default TextBlock

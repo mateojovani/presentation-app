@@ -1,33 +1,31 @@
-import React, { Component } from 'react'
-import update from 'immutability-helper'
+import React from 'react'
 import { DropTarget } from 'react-dnd'
 import { DragDropContext } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
 import Components from '../palette/Components'
 
-const PreviewBtn = ({ toggleMode }) => {
-    return (
-        <button className="button" onClick={toggleMode}>
-            <span className="icon">
-                <i className="fas fa-eye"></i>
-            </span>
-            <span>Preview</span>
-        </button>
-    )
-}
+const PreviewBtn = ({ toggleMode }) =>
+    <button className="button" onClick={toggleMode}>
+        <span className="icon">
+            <i className="fas fa-eye"></i>
+        </span>
+        <span>Preview</span>
+    </button>
 
-const DesignBtn = ({ toggleMode }) => {
-    return (
-        <button className="button" onClick={toggleMode}>
-            <span className="icon">
-                <i className="fas fa-pencil-ruler"></i>
-            </span>
-            <span>Design</span>
-        </button>
-    )
-}
+const DesignBtn = ({ toggleMode }) =>
+    <button className="button" onClick={toggleMode}>
+        <span className="icon">
+            <i className="fas fa-pencil-ruler"></i>
+        </span>
+        <span>Design</span>
+    </button>
 
-export class Page extends Component {
+/**
+ * Unless the React DND supports Stateless components and hooks
+ * This will remain a class component
+ */
+
+export class Page extends React.Component {
     constructor() {
         super(...arguments)
         this.state = {
@@ -67,19 +65,10 @@ export class Page extends Component {
     }
 
     toggleMode() {
-        if (this.state.mode === 'edit') {
-            this.setState(
-                update(this.state, {
-                    $merge: { mode: 'preview' }
-                })
-            )
-        } else {
-            this.setState(
-                update(this.state, {
-                    $merge: { mode: 'edit' }
-                })
-            )
-        }
+        if (this.state.mode === 'edit')
+            this.setState({mode: 'preview'})
+        else
+            this.setState({mode: 'edit'})
     }
 
     renderBlocks(blocks) {
@@ -100,13 +89,19 @@ export class Page extends Component {
     }
 
     render() {
-        const { connectDropTarget, width, height, blocks } = this.props
+        const {
+            id,
+            connectDropTarget,
+            width,
+            height,
+            blocks
+        } = this.props
 
         const content = (
-            <div id={connectDropTarget ? 'drop-page-' + this.props.id : 'slide-' + this.props.id}>
+            <div id={connectDropTarget ? 'drop-page-' + id : 'slide-' + id}>
                 <div
-                    className={connectDropTarget ? 'drop-page-box box' : 'slide-box box'}
                     ref={page => this.page = page}
+                    className={connectDropTarget ? 'drop-page-box box': 'slide-box box'}
                     style={{
                         position: 'relative',
                         width: width || '100%',
