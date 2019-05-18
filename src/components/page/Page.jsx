@@ -2,23 +2,7 @@ import React from 'react'
 import { DropTarget } from 'react-dnd'
 import { DragDropContext } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
-import Components from '../palette/Components'
-
-const PreviewBtn = ({ toggleMode }) =>
-    <button className="button" onClick={toggleMode}>
-        <span className="icon">
-            <i className="fas fa-eye"></i>
-        </span>
-        <span>Preview</span>
-    </button>
-
-const DesignBtn = ({ toggleMode }) =>
-    <button className="button" onClick={toggleMode}>
-        <span className="icon">
-            <i className="fas fa-pencil-ruler"></i>
-        </span>
-        <span>Design</span>
-    </button>
+import { Types } from './blocks/Components'
 
 /**
  * Unless the React DND supports Stateless components and hooks
@@ -28,14 +12,10 @@ const DesignBtn = ({ toggleMode }) =>
 export class Page extends React.Component {
     constructor() {
         super(...arguments)
-        this.state = {
-            mode: this.props.mode
-        }
 
         this.page = null
         this.updateBlock = this.updateBlock.bind(this)
         this.setActiveBlock = this.setActiveBlock.bind(this)
-        this.toggleMode = this.toggleMode.bind(this)
         this.isActive = this.isActive.bind(this)
     }
 
@@ -64,21 +44,14 @@ export class Page extends React.Component {
         return false
     }
 
-    toggleMode() {
-        if (this.state.mode === 'edit')
-            this.setState({mode: 'preview'})
-        else
-            this.setState({mode: 'edit'})
-    }
-
     renderBlocks(blocks) {
         return blocks.map((block, key) => {
-            const Block = Components[block.type].constructor
+            const Block = Types[block.type]
 
             return (
                 <Block
                     key={key}
-                    mode={this.state.mode}
+                    mode={this.props.mode}
                     onUpdate={this.updateBlock}
                     onFocus={this.setActiveBlock}
                     focused={this.isActive(block)}
@@ -105,19 +78,10 @@ export class Page extends React.Component {
                     style={{
                         position: 'relative',
                         width: width || '100%',
-                        height: height || '80vh'
+                        height: height || '100vh'
                     }}
                 >
                     {this.renderBlocks(blocks)}
-                </div>
-                <div>
-                    {connectDropTarget ?
-                        this.state.mode === 'preview' ?
-                            <DesignBtn toggleMode={this.toggleMode} /> :
-                            <PreviewBtn toggleMode={this.toggleMode} />
-                        :
-                        null
-                    }
                 </div>
             </div>
         )

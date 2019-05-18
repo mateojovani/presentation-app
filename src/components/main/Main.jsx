@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import TitleBar from '../app-bar/AppBar'
+import AppToolBar from '../toolbar/ToolBar'
 import { createMuiTheme, makeStyles } from '@material-ui/core/styles'
 import { ThemeProvider } from '@material-ui/styles'
-import { Toolbar, Grid, Paper } from '@material-ui/core'
+import { Grid, Paper } from '@material-ui/core'
 import Slides from '../slides-panel/Slides'
 import DropTargetPage from '../page/Page'
 import { connect } from 'react-redux'
@@ -15,6 +16,7 @@ import {
     setActiveBlock,
     addBlock
 } from '../../actions/pages'
+import Blocks from '../page/blocks/Components'
 
 const theme = createMuiTheme({
     palette: {
@@ -37,17 +39,22 @@ const useStyles = makeStyles(() => ({
         }
     },
     root: {
+        zIndex: 1,
         flexGrow: 1,
+        height: '100vh'
     },
     main: {
-        height: '80vh'
+
     },
     slides: {
         height: '80vh',
         overflowY: 'scroll'
     },
     paper: {
-
+        zIndex: 0,
+        marginLeft: 30,
+        marginTop: 30,
+        marginBottom: '5vh'
     }
 }))
 
@@ -58,10 +65,19 @@ const Main = ({
     setCurrentPage,
     addPage,
     deletePage,
+    addBlock,
     updateBlock,
     setActiveBlock
 }) => {
     useEffect(() => { getPages() }, [])
+    let [mode, setMode] = useState('edit')
+
+    const togglePageMode = () => {
+        if (mode === 'edit')
+            setMode('preview')
+        else
+            setMode('edit')
+    }
 
     const classes = useStyles()
     const pages = pagesReducer.pages ? pagesReducer.pages : []
@@ -72,7 +88,13 @@ const Main = ({
         <ThemeProvider theme={theme}>
             <div className={classes.root}>
                 <TitleBar />
-                <Toolbar variant="dense"/>
+                <AppToolBar
+                    pageMode={mode}
+                    togglePageMode={togglePageMode}
+                    blocks={Blocks}
+                    addBlock={addBlock.bind(this)}
+                    currentPage={currentPage}
+                />
                 <Grid className={classes.main} container>
                     <Grid className={classes.slides} item xs={2}>
                         <Slides
@@ -87,13 +109,16 @@ const Main = ({
                         <Paper className={classes.paper} square={true}>
                             <DropTargetPage
                                 id={currentPage.id}
-                                mode="edit"
+                                mode={mode}
+                                height='72vh'
                                 blocks={currentPage.blocks}
                                 currentBlock={currentBlock}
                                 updateBlock={updateBlock.bind(this)}
                                 setActiveBlock={setActiveBlock.bind(this)}
                             />
                         </Paper>
+                    </Grid>
+                    <Grid item xs={2}>
                     </Grid>
                 </Grid>
             </div>
@@ -108,7 +133,7 @@ const mapDispatchToProps = dispatch => ({
     setCurrentPage: (page) => dispatch(setCurrentPage(page)),
     addPage: () => dispatch(addPage()),
     deletePage: (pageIds) => dispatch(deletePage(pageIds)),
-    addBlock: (pageId) => dispatch(addBlock(pageId))
+    addBlock: (params) => dispatch(addBlock(params))
 })
 
 const mapStateToProps = state => ({
