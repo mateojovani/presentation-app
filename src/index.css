@@ -5,6 +5,7 @@ body {
 }
 
 .ck .ck-editor__editable {
+    height: '100%';
     border: none !important;
     box-shadow: none !important
 }

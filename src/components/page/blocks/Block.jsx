@@ -1,7 +1,20 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { DragSource } from 'react-dnd'
 import ResizeObserver from 'resize-observer-polyfill'
+import interact from 'interactjs'
+import { withStyles } from '@material-ui/styles'
+
+const styles = {
+    reizable: {
+        borderTop: '3px solid blue',
+        borderLeft: '3px solid blue',
+        borderRight: '3px dashed blue',
+        borderBottom: '3px dashed blue'
+    },
+    draggable: {
+        border: '1px dashed gray'
+    }
+}
 
 export class Block extends React.Component {
     constructor(props) {
@@ -9,6 +22,48 @@ export class Block extends React.Component {
 
         this.box = null
         this.boxObserver = null
+    }
+
+    initInteract() {
+        interact(this.box)
+            .resizable({
+                edges: { left: false, right: true, bottom: true, top: false },
+
+                modifiers: [
+                    // keep the edges inside the parent
+                    interact.modifiers.restrictEdges({
+                        outer: 'parent',
+                        endOnly: true,
+                    }),
+
+                    // minimum size
+                    interact.modifiers.restrictSize({
+                        min: { width: 10, height: 50 }
+                    }),
+                ],
+
+                inertia: false
+            })
+            .on('resizemove', function (event) {
+                var target = event.target,
+                    x = (parseFloat(target.getAttribute('data-x')) || 0),
+                    y = (parseFloat(target.getAttribute('data-y')) || 0)
+
+                // update the element's style
+                target.style.width = event.rect.width + 'px'
+                target.style.height = event.rect.height + 'px'
+
+                // translate when resizing from top or left edges
+                x += event.deltaRect.left
+                y += event.deltaRect.top
+
+                target.style.webkitTransform = target.style.transform =
+                    'translate(' + x + 'px,' + y + 'px)'
+
+                target.setAttribute('data-x', x)
+                target.setAttribute('data-y', y)
+            })
+
     }
 
     initObserver() {
@@ -21,23 +76,25 @@ export class Block extends React.Component {
 
     setActive(draggable) {
         if (draggable)
-            this.props.onFocus({id: this.props.id})
+            this.props.onFocus({ id: this.props.id })
     }
 
     componentDidMount() {
-        const {connectDragSource} = this.props
+        const { connectDragSource } = this.props
 
         if (connectDragSource) {
             this.boxObserver = this.initObserver(this.box)
             this.boxObserver.observe(this.box)
+            this.initInteract()
         }
     }
 
     componentDidUpdate() {
-        const {connectDragSource} = this.props
+        const { connectDragSource } = this.props
 
         if (connectDragSource && this.box) { //reinit observe after drag and drop
             this.boxObserver.observe(this.box)
+            this.initInteract()
         }
     }
 
@@ -51,7 +108,8 @@ export class Block extends React.Component {
             children,
             focused,
             width,
-            height
+            height,
+            classes
         } = this.props
 
         if (isDragging) {
@@ -61,17 +119,15 @@ export class Block extends React.Component {
         const content = (draggable = false) => (
             <div
                 id={id}
-                ref={ box => this.box = box }
+                ref={box => this.box = box}
                 onClick={() => this.setActive(draggable)}
+                className={draggable ? focused ? classes.reizable: classes.draggable: ''}
                 style={{
                     position: 'absolute',
-                    border: draggable ? focused ? '3px dashed blue' : '1px dashed gray' : 'none',
                     backgroundColor: 'white',
                     padding: '0.1rem 0.1rem',
                     cursor: 'move',
-                    resize: draggable ? 'both' : 'none',
                     overflow: 'auto',
-                    // "max-width": width,
                     width: width || '100%',
                     height: height || '100%',
                     left: left,
@@ -104,13 +160,7 @@ const DraggableBlock = DragSource(
         connectDragSource: connect.dragSource(),
         isDragging: monitor.isDragging(),
     }),
-)(Block)
-
-Block.propTypes = {
-    id: PropTypes.string,
-    width: PropTypes.string,
-    height: PropTypes.string
-}
+)(withStyles(styles)(Block))
 
 export const renderBlock = (mode, props, renderEdit, renderPreview) => {
     return mode === 'edit' ?
