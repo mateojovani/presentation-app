@@ -1,43 +1,11 @@
 const uuid = require('uuid/v4')
+const { EditorState } = require('draft-js')
 
 //DUMMY CONTENT
 const pages = [
     {
         id: uuid(),
-        blocks: [
-            {
-                id: uuid(),
-                type: 'TextBlock',
-                top: '10%',
-                left: '10%',
-                width: '40%',
-                height: '15%',
-                content: ''
-            },
-            {
-                id: uuid(),
-                type: 'ImageBlock',
-                top: '30%',
-                left: '10%',
-                width: '40%',
-                height: '40%',
-                src: 'https://via.placeholder.com/150'
-            }
-        ]
-    },
-    {
-        id: uuid(),
-        blocks: [
-            {
-                id: uuid(),
-                type: 'TextBlock',
-                top: '10%',
-                left: '10%',
-                width: '40%',
-                height: '15%',
-                content: 'Hi'
-            }
-        ]
+        blocks: []
     }
 ]
 
@@ -50,7 +18,7 @@ const pageTemplate = (id = uuid()) => {
 
 const blockTemplate = (id = uuid(), name) => {
     switch (name) {
-    case 'TextBlock': {
+    case 'RichTextBlock': {
         return {
             id: id,
             type: name,
@@ -76,11 +44,11 @@ const blockTemplate = (id = uuid(), name) => {
         return {
             id: id,
             type: name,
-            top: 100,
-            left: 80,
+            top: '10%',
+            left: '10%',
             width: '40%',
             height: '15%',
-            content: ''
+            content: EditorState.createEmpty()
         }
     }
     }

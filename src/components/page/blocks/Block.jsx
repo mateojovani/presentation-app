@@ -30,16 +30,13 @@ export class Block extends React.Component {
                 edges: { left: false, right: true, bottom: true, top: false },
 
                 modifiers: [
-                    // keep the edges inside the parent
                     interact.modifiers.restrictEdges({
-                        outer: 'parent',
+                        // outer: 'parent',
                         endOnly: true,
                     }),
-
-                    // minimum size
                     interact.modifiers.restrictSize({
                         min: { width: 10, height: 50 }
-                    }),
+                    })
                 ],
 
                 inertia: false
@@ -52,13 +49,6 @@ export class Block extends React.Component {
                 // update the element's style
                 target.style.width = event.rect.width + 'px'
                 target.style.height = event.rect.height + 'px'
-
-                // translate when resizing from top or left edges
-                x += event.deltaRect.left
-                y += event.deltaRect.top
-
-                target.style.webkitTransform = target.style.transform =
-                    'translate(' + x + 'px,' + y + 'px)'
 
                 target.setAttribute('data-x', x)
                 target.setAttribute('data-y', y)
@@ -123,8 +113,10 @@ export class Block extends React.Component {
                 onClick={() => this.setActive(draggable)}
                 className={draggable ? focused ? classes.reizable: classes.draggable: ''}
                 style={{
+                    backgroundColor: 'inherit !important',
+                    boxSizing: 'border-box',
+                    touchAction: 'none',
                     position: 'absolute',
-                    backgroundColor: 'white',
                     padding: '0.1rem 0.1rem',
                     cursor: 'move',
                     overflow: 'auto',

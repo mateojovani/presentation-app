@@ -1,8 +1,8 @@
-import React from 'react'
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
-import CKEditor from '@ckeditor/ckeditor5-react'
-import CkeditorConfig from './CkeditorConfig'
+import React, { useEffect } from 'react'
 import { renderBlock } from './Block'
+import { Editor } from 'draft-js'
+import { stateToHTML } from 'draft-js-export-html'
+import textFit from 'textfit'
 
 const TextBlock = ({
     id,
@@ -17,20 +17,20 @@ const TextBlock = ({
     onFocus,
     focused
 }) => {
-    let editor = null
 
-    const renderCKEditor = () => {
+    useEffect(() => {
+        textFit(document.getElementById(id), {multiLine: true, alignVert: true})
+    }, [content])
+
+    const handleChange = (state) => {
+        onUpdate({ id, content: state})
+    }
+
+    const renderEditor = () => {
         return (
-            <CKEditor
-                editor={ClassicEditor}
-                config={CkeditorConfig}
-                data={content}
-                onInit={_editor => {
-                    if (!editor) editor = _editor
-                }}
-                onChange={(event, editor) => {
-                    onUpdate({ id, content: editor.getData() })
-                }}
+            <Editor
+                editorState={content}
+                onChange={editorState => handleChange(editorState)}
             />
         )
     }
@@ -46,8 +46,8 @@ const TextBlock = ({
         onFocus,
         focused
     },
-    () => renderCKEditor(),
-    () => <div dangerouslySetInnerHTML={{ __html: content }}></div>
+    () => renderEditor(),
+    () => <div dangerouslySetInnerHTML={{ __html: stateToHTML(content.getCurrentContent()) }}></div>
     )
 }
 

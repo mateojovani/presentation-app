@@ -1,11 +1,11 @@
 import TextBlock from './TextBlock'
 import ImageBlock from './ImageBlock'
-// import RichTextBlock from './RichTextBlock'
+import RichTextBlock from './RichTextBlock'
 
 export const Types = {
     'TextBlock': TextBlock,
     'ImageBlock': ImageBlock,
-    'RichTextBlock': () => {}
+    'RichTextBlock': RichTextBlock
 }
 
 export default {
@@ -15,11 +15,11 @@ export default {
             'name': 'text',
             'label': 'TextBox'
         },
-        // 'RichTextBlock': {
-        //     'constructor': Types['RichTextBlock'],
-        //     'name': 'rich-text',
-        //     'label': 'RichTextBox'
-        // }
+        'RichTextBlock': {
+            'constructor': Types['RichTextBlock'],
+            'name': 'rich-text',
+            'label': 'RichTextBox'
+        }
     },
     'Media': {
         'ImageBlock': {
