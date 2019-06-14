@@ -13,19 +13,28 @@ export default {
         'TextBlock': {
             'constructor': Types['TextBlock'],
             'name': 'text',
-            'label': 'TextBox'
+            'label': 'TextBox',
+            'props': [
+                'bold-btn',
+                'italic-btn',
+                'underline-btn',
+                'text-size-btn',
+                'text-color-btn'
+            ]
         },
         'RichTextBlock': {
             'constructor': Types['RichTextBlock'],
             'name': 'rich-text',
-            'label': 'RichTextBox'
+            'label': 'RichTextBox',
+            'props': []
         }
     },
     'Media': {
         'ImageBlock': {
             'constructor': Types['ImageBlock'],
             'name': 'image',
-            'label': 'Image'
+            'label': 'Image',
+            'props': []
         }
     }
 }

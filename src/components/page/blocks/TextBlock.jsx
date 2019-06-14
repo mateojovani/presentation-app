@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import { renderBlock } from './Block'
 import { Editor } from 'draft-js'
 import { stateToHTML } from 'draft-js-export-html'
-import textFit from 'textfit'
 
 const TextBlock = ({
     id,
@@ -18,20 +17,22 @@ const TextBlock = ({
     focused
 }) => {
 
-    useEffect(() => {
-        textFit(document.getElementById(id), {multiLine: true, alignVert: true})
-    }, [content])
+    // useEffect(() => {
+
+    // }, [content])
 
     const handleChange = (state) => {
-        onUpdate({ id, content: state})
+        onUpdate({ id, content: state })
     }
 
     const renderEditor = () => {
         return (
-            <Editor
-                editorState={content}
-                onChange={editorState => handleChange(editorState)}
-            />
+            <div style={{ fontSize: '2rem', height: '100%' }}>
+                <Editor
+                    editorState={content}
+                    onChange={editorState => handleChange(editorState)}
+                />
+            </div>
         )
     }
 
@@ -47,7 +48,7 @@ const TextBlock = ({
         focused
     },
     () => renderEditor(),
-    () => <div dangerouslySetInnerHTML={{ __html: stateToHTML(content.getCurrentContent()) }}></div>
+    () => <div style={{ fontSize: '2rem', height: '100%' }} dangerouslySetInnerHTML={{ __html: stateToHTML(content.getCurrentContent()) }}></div>
     )
 }
 

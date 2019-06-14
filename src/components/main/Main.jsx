@@ -93,6 +93,7 @@ const Main = ({
                     togglePageMode={togglePageMode}
                     blocks={Blocks}
                     addBlock={addBlock.bind(this)}
+                    currentBlock={currentBlock}
                     currentPage={currentPage}
                 />
                 <Grid className={classes.main} container>

@@ -18,3 +18,7 @@ body {
 .slide-box {
     font-size: 0.2rem
 }
+
+.DraftEditor-root, .DraftEditor-editorContainer, .public-DraftEditor-content {
+    height: 100%;
+}
